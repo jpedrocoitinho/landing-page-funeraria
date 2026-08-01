@@ -4444,10 +4444,12 @@ body.menu-aberto .navegacao-container {
   background: transparent;
   border: 0;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   text-align: left;
   transition:
-    color 0.2s ease,
-    background-color 0.24s ease;
+    color 0.18s ease,
+    background-color 0.22s ease;
 }
 .botao-etapa::before {
   content: "";
@@ -4518,29 +4520,26 @@ body.menu-aberto .navegacao-container {
   grid-template-rows: 0fr;
   opacity: 0;
   pointer-events: none;
-  visibility: hidden;
+  contain: paint;
   transition:
-    grid-template-rows 0.34s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.18s ease,
-    visibility 0s linear 0.34s;
+    grid-template-rows 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.16s ease;
 }
 .detalhe-conteudo {
   position: relative;
   min-height: 0;
   padding: 0 145px 25px 18px;
   overflow: hidden;
-  transform: translateY(-4px);
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translate3d(0, -3px, 0);
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .botao-etapa[aria-expanded="true"] + .detalhe-atendimento {
   grid-template-rows: 1fr;
   opacity: 1;
   pointer-events: auto;
-  visibility: visible;
-  transition-delay: 0s;
 }
 .botao-etapa[aria-expanded="true"] + .detalhe-atendimento .detalhe-conteudo {
-  transform: none;
+  transform: translate3d(0, 0, 0);
 }
 .detalhe-atendimento p {
   max-width: 470px;
@@ -4718,6 +4717,24 @@ body.menu-aberto .navegacao-container {
   html::-webkit-scrollbar-thumb:hover,
   body::-webkit-scrollbar-thumb:hover {
     background: var(--dourado);
+  }
+}
+
+/* INTERAÇÃO TÁTIL RESPONSIVA */
+@media (hover: none) and (pointer: coarse) {
+  a,
+  button,
+  [role="button"],
+  [tabindex="0"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  a:focus:not(:focus-visible),
+  button:focus:not(:focus-visible),
+  [role="button"]:focus:not(:focus-visible),
+  [tabindex="0"]:focus:not(:focus-visible) {
+    outline: none;
   }
 }
 
