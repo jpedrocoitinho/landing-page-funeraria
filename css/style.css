@@ -4996,3 +4996,45 @@ body.menu-aberto .navegacao-container {
     background: #8a6215;
   }
 }
+/* PILARES DE ACOLHIMENTO — LEITURA NO CELULAR */
+@media (max-width: 699px) {
+  .pilares-acolhimento {
+    margin-top: 38px;
+    gap: 0;
+  }
+
+  .pilares-acolhimento > div,
+  .pilares-acolhimento > div:first-child {
+    min-height: 72px;
+    padding-inline: 10px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    justify-items: center;
+    align-content: start;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .pilares-acolhimento > div > span {
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+
+  .pilares-acolhimento p {
+    justify-items: center;
+    gap: 4px;
+  }
+
+  .pilares-acolhimento strong {
+    color: #3c3122;
+    font-size: 0.66rem;
+    line-height: 1.2;
+  }
+
+  .pilares-acolhimento small {
+    display: block;
+    color: #6b604e;
+    font-size: 0.54rem;
+    line-height: 1.35;
+  }
+}
