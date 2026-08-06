@@ -310,40 +310,50 @@ if (carrosselAvaliacoes) {
 if (window.gsap && window.ScrollTrigger) {
   gsap.registerPlugin(ScrollTrigger);
 
-  const reduzirMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduzirMovimentoLinha = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const caminhosJornada = gsap.utils.toArray(".trilha-progresso");
 
-  if (reduzirMovimento) {
-    gsap.set(".linha-progresso", { scaleY: 1 });
-    gsap.set(".trilha-progresso", { strokeDashoffset: 0 });
+  if (reduzirMovimentoLinha) {
+    gsap.set(caminhosJornada, { clipPath: "inset(0% 0% 0% 0%)" });
   } else {
-    const caminhosJornada = gsap.utils.toArray(".trilha-progresso");
-    const comprimentosCaminhos = caminhosJornada.map((caminho) => caminho.getTotalLength());
+    const contextoLinha = gsap.matchMedia();
 
-    gsap.set(caminhosJornada, {
-      strokeDasharray: (indice) => comprimentosCaminhos[indice],
-      strokeDashoffset: (indice) => comprimentosCaminhos[indice],
-    });
-
-    const animacaoLinha = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".linha-do-tempo",
-        start: "top 55%",
-        end: "bottom 18%",
-        scrub: .12,
-        invalidateOnRefresh: true,
+    contextoLinha.add(
+      {
+        desktop: "(min-width: 900px)",
+        responsivo: "(max-width: 899px)",
       },
-    });
+      (contexto) => {
+        const seletor = contexto.conditions.desktop
+          ? ".trilha-jornada .trilha-progresso"
+          : ".trilha-celular .trilha-progresso";
+        const caminhoVisivel = document.querySelector(seletor);
 
-    animacaoLinha.fromTo(
-      ".linha-progresso",
-      { scaleY: 0 },
-      { scaleY: 1, duration: 1, ease: "none" },
-    );
+        if (!caminhoVisivel) return undefined;
 
-    animacaoLinha.to(
-      caminhosJornada,
-      { strokeDashoffset: 0, duration: 1, ease: "none" },
-      0,
+        gsap.set(caminhoVisivel, {
+          clipPath: "inset(0% 0% 100% 0%)",
+          force3D: true,
+        });
+
+        const animacaoLinha = gsap.to(caminhoVisivel, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "none",
+          force3D: true,
+          scrollTrigger: {
+            trigger: ".linha-do-tempo",
+            start: "top 55%",
+            end: "bottom 18%",
+            scrub: 0.2,
+            invalidateOnRefresh: false,
+          },
+        });
+
+        return () => {
+          animacaoLinha.scrollTrigger?.kill();
+          animacaoLinha.kill();
+        };
+      },
     );
   }
 }
