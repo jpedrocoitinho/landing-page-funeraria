@@ -1233,9 +1233,7 @@ body.menu-aberto .navegacao-container {
 .trilha-progresso {
   stroke: var(--dourado);
   stroke-width: 1.85;
-  clip-path: inset(0 0 100% 0);
-  will-change: clip-path;
-  transform: translateZ(0);
+  will-change: stroke-dashoffset;
 }
 .conteudo-etapa,
 .icone-etapa {
